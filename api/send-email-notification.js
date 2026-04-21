@@ -109,6 +109,15 @@ export default async function handler(req, res) {
       }
     }
 
+    // Validate notification type before building email
+    const SUPPORTED_TYPES = ['profile_view', 'payment_received'];
+    if (!SUPPORTED_TYPES.includes(type)) {
+      return res.status(400).json({
+        error: `Unsupported notification type: '${type}'`,
+        supportedTypes: SUPPORTED_TYPES,
+      });
+    }
+
     let subject = '';
     let html = '';
 
